@@ -1,0 +1,16 @@
+import { ApolloServer } from "@apollo/server";
+import { startStandaloneServer } from '@apollo/server/standalone';
+import typeDefs from "./src/graphql/typeDefs/product";
+import resolvers from "./src/graphql/resolvers/product";
+import database from './src/database/db';
+import dotenv from "dotenv";
+dotenv.config();
+database.connectDatabase();
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+});
+const { url } = await startStandaloneServer(server, {
+    listen: { port: 4000 },
+});
+console.log(`🚀  Server ready at: ${url}`);
