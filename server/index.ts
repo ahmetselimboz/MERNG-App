@@ -10,14 +10,14 @@ import dotenv from "dotenv"
 dotenv.config()
 
 database.connectDatabase()
-
+const PORT = process.env.PORT
 const server = new ApolloServer({
     typeDefs,
     resolvers,
 });
 
 const { url } = await startStandaloneServer(server, {
-    listen: { port: 4000 },
+    listen: { port: Number(PORT) },
 });
 
 

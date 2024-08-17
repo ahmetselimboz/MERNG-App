@@ -18,8 +18,17 @@ const resolvers = {
                 console.log("getProductsError: ", error)
             }
         },
-
     },
+    Mutation:{
+        createProduct: async (_,{body})=>{
+            try {
+                const result = await Product.create(body)
+                return result;
+            } catch (error) {
+                console.log("createProductError: ", error)
+            }
+        }
+    }
 };
 
 export default resolvers;

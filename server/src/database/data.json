@@ -1,0 +1,27 @@
+[
+    {
+        "name": "Wireless Headphones",
+        "price": "99.99",
+        "color": "Black"
+    },
+    {
+        "name": "Smartphone",
+        "price": "699.99",
+        "color": "Silver"
+    },
+    {
+        "name": "Laptop",
+        "price": "1299.99",
+        "color": "Gray"
+    },
+    {
+        "name": "Bluetooth Speaker",
+        "price": "49.99",
+        "color": "Blue"
+    },
+    {
+        "name": "Smartwatch",
+        "price": "199.99",
+        "color": "Rose Gold"
+    }
+]
