@@ -27,6 +27,16 @@ const resolvers = {
             } catch (error) {
                 console.log("createProductError: ", error)
             }
+        },
+        updateProduct: async (_,{body})=>{
+            try {
+                console.log(body)
+                // const result = await Product.findByIdAndUpdate(productId, {})
+                // return result;
+                return true
+            } catch (error) {
+                console.log("createProductError: ", error)
+            }
         }
     }
 };

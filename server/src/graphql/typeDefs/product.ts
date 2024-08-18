@@ -17,8 +17,16 @@ const typeDefs = `#graphql
     color:String!
   }
 
+  input updateInput{
+    id:ID!
+    name:String!
+    price:String!
+    color:String!
+  }
+
   type Mutation {
     createProduct(body: Input!):Product
+    updateProduct(body: updateInput!):Product
   }
 
 `;

@@ -21,3 +21,14 @@ query GetProducts {
   }
 }
 `;
+
+export const GET_PRODUCT = gql`
+  query GetProduct($productId: ID!) {
+    getProduct(productId: $productId) {
+      id
+      color
+      name
+      price
+    }
+  }
+`;
