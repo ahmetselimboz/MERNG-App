@@ -30,14 +30,23 @@ const resolvers = {
         },
         updateProduct: async (_,{body})=>{
             try {
-                console.log(body)
-                // const result = await Product.findByIdAndUpdate(productId, {})
-                // return result;
-                return true
+
+                const result = await Product.findByIdAndUpdate(body.id, {name:body.name, color:body.color, price:body.price},{new:true})
+                return result
             } catch (error) {
-                console.log("createProductError: ", error)
+                console.log("updateProductError: ", error)
+            }
+        },
+        deleteProduct: async (_,{productId})=>{
+            try {
+                console.log(productId)
+                const result = await Product.findByIdAndDelete(productId)
+                return result
+            } catch (error) {
+                console.log("deleteProductError: ", error)
             }
         }
+
     }
 };
 

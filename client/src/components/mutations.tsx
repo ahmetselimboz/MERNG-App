@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { CREATE_PRODUCT, UPDATE_PRODUCT, UPDATE_PRODUCT_TEXT } from '../graphql/mutation';
+import { CREATE_PRODUCT, DELETE_PRODUCT, DELETE_PRODUCT_TEXT, UPDATE_PRODUCT, UPDATE_PRODUCT_TEXT } from '../graphql/mutation';
 import { GET_PRODUCT, GET_PRODUCTS } from '../graphql/query';
 
 const mutations = () => {
@@ -14,13 +14,28 @@ const mutations = () => {
         thirdDiv: false
     })
     const [selectedId, setSelectedId] = useState("")
-    const [inputUp, setInputUp] = useState({ name: "", price: "", color: "", id:"" })
+    const [formState, setFormState] = useState({
+        id: '',
+        name: '',
+        price: '',
+        color: '',
+    });
+    const [selectedItem, setSelectedItem] = useState("Choose One!")
     const [input, setInput] = useState({ name: "", price: "", color: "" })
     const { loading: loadingProducts, error: errorProducts, data: dataProducts, refetch } = useQuery(GET_PRODUCTS);
     const [createProduct, { loading: loadingCreate, error: errorCreate, data: dataCreate }] = useMutation(CREATE_PRODUCT);
     const [updateProduct, { loading: loadingUpdate, error: errorUpdate, data: dataUpdate }] = useMutation(UPDATE_PRODUCT);
+    const [deleteProduct, { loading: loadingDelete, error: errorDelete, data: dataDelete }] = useMutation(DELETE_PRODUCT);
     const [getProduct, { loading: loadingProduct, error: errorProduct, data: dataProduct }] = useLazyQuery(GET_PRODUCT);
 
+
+    useEffect(() => {
+    
+        dataProduct?.getProduct !== undefined ?
+            setFormState({ name: dataProduct?.getProduct.name, price: dataProduct?.getProduct.price, color: dataProduct?.getProduct.color, id: "" })
+            :
+            setFormState({ name: "", price: "", color: "", id: "" })
+    }, [dataProduct?.getProduct])
 
     const toggle = (divName) => {
         setIsOpen((prevState) => ({
@@ -31,17 +46,23 @@ const mutations = () => {
 
     const onChange = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value })
-        setInputUp({ ...inputUp, [e.target.name]: e.target.value })
+
     }
 
-    const updateFunc = () => {
-        console.log(inputUp);
-        inputUp.id = selectedId
-        updateProduct({ variables: { body: inputUp } });
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormState({
+            ...formState,
+            [name]: value,
+        });
+    };
+
+
+    const handleSubmit = () => {
+        formState.id = selectedId
+        updateProduct({ variables: { body: formState } });
         refetch();
-        setInputUp({ name: "", price: "", color: "",id:"" })
-    }
-
+    };
 
     return (
         <div className="w-full flex flex-col items-center">
@@ -84,7 +105,7 @@ const mutations = () => {
                                     <input value={input.color} onChange={onChange} name='color' id='color' type="text" placeholder='Color' className='w-full rounded-md outline-none border border-stone-500 py-1 px-3' />
                                 </div>
 
-                                <button onClick={() => { createProduct({ variables: { body: input } }); refetch(); setInput({ name: "", price: "", color: "" }) }} className='text-white px-4 py-2 rounded-md bg-pink-500 hover:bg-pink-600 transition-all'>Create</button>
+                                <button onClick={() => { createProduct({ variables: { body: input } }); refetch(); setInput({ name: "", price: "", color: "" }) }} className='text-white px-4 py-2 rounded-md bg-blue-500 hover:bg-blue-600 transition-all'>Create</button>
                             </div>
                             <div className=" w-full flex flex-col items-center pr-4">
                                 <div className="text-pink-500 text-2xl font-medium tracking-wider my-1 flex flex-row items-center gap-2">
@@ -144,7 +165,7 @@ const mutations = () => {
                             <div className='flex flex-row flex-wrap items-center justify-center gap-5 mt-2 pr-8'>
                                 {
                                     dataProducts?.getProducts.map((item, i) => (
-                                        <div key={i} onClick={() => { setSelectedId(item.id); getProduct({ variables: { productId: item.id } }); dataProduct?.getProduct !== undefined ? setInputUp({ name: dataProduct?.getProduct.name , price: dataProduct?.getProduct.price, color:  dataProduct?.getProduct.color, id:"" }) : setInputUp({ name: "", price: "", color: "", id:"" }) }} className='w-fit bg-pink-500 hover:bg-pink-600 transition-all cursor-pointer mb-2 text-white rounded-md py-1.5 px-4'>Product-{i + 1}</div>
+                                        <div key={i} onClick={() => { setSelectedId(item.id); getProduct({ variables: { productId: item.id } }); }} className='w-fit bg-pink-500 hover:bg-pink-600 transition-all cursor-pointer mb-2 text-white rounded-md py-1.5 px-4'>{item.name}</div>
                                     ))
                                 }
 
@@ -160,20 +181,20 @@ const mutations = () => {
                             <div className='w-full flex flex-col items-center justify-center gap-3 my-2'>
                                 <div className='flex flex-col items-start justify-center gap-2 w-2/3'>
 
-                                    <input value={inputUp.name} onChange={onChange} name='name' id='name' type="text" placeholder='Name' className='w-full  rounded-md outline-none border border-stone-500 py-1 px-3' />
+                                    <input value={formState.name} onChange={handleChange} name='name' id='name' type="text" placeholder='Name' className='w-full  rounded-md outline-none border border-stone-500 py-1 px-3' />
                                 </div>
                                 <div className='flex flex-col items-start justify-center gap-2 w-2/3'>
 
-                                    <input value={inputUp.price} onChange={onChange} name='price' id='price' type="text" placeholder='Price' className='w-full  rounded-md outline-none border border-stone-500 py-1 px-3' />
+                                    <input value={formState.price} onChange={handleChange} name='price' id='price' type="text" placeholder='Price' className='w-full  rounded-md outline-none border border-stone-500 py-1 px-3' />
                                 </div>
                                 <div className='flex flex-col items-start justify-center gap-2 w-2/3'>
 
-                                    <input value={inputUp.color} onChange={onChange} name='color' id='color' type="text" placeholder='Color' className='w-full rounded-md outline-none border border-stone-500 py-1 px-3' />
+                                    <input value={formState.color} onChange={handleChange} name='color' id='color' type="text" placeholder='Color' className='w-full rounded-md outline-none border border-stone-500 py-1 px-3' />
                                     {/* <input value={inputUp.id} onChange={onChange} name='id' id='id' type="hidden" placeholder='id' className='w-full rounded-md outline-none border border-stone-500 py-1 px-3' /> */}
-                                    
+
                                 </div>
 
-                                <button onClick={() => { updateFunc() }} className='text-white px-4 py-2 rounded-md bg-pink-500 hover:bg-pink-600 transition-all'>Update</button>
+                                <button onClick={() => { handleSubmit() }} className='text-white px-4 py-2 rounded-md bg-green-500 hover:bg-green-600 transition-all'>Update</button>
                             </div>
                             <div className=" w-full flex flex-col items-center pr-4">
                                 <div className="text-pink-500 text-2xl font-medium tracking-wider my-1 flex flex-row items-center gap-2">
@@ -195,7 +216,7 @@ const mutations = () => {
                                 <hr className="border border-pink-500 w-2/3" />
                             </div>
                             <div className='w-full h-[420px] overflow-y-scroll m-2'>
-                                {/* <pre>{JSON.stringify(dataProducts.getProducts, null, 2)}</pre> */}
+                                <pre>{JSON.stringify(dataProducts?.getProducts, null, 2)}</pre>
                             </div>
                         </div>
                     </div>
@@ -211,7 +232,30 @@ const mutations = () => {
                 <div className={`${isOpen.thirdDiv ? "h-[500px]  my-2 " : "h-0"} overflow-hidden w-full transition-all duration-300 ease-in-out`}>
                     <hr className="border border-slate-800/50 w-full" />
                     <div className='flex flex-row items-center px-4 py-5 w-full h-full'>
-                        <div className='w-1/2 h-full '>
+                        <div className='w-1/2 h-[420px] overflow-y-scroll'>
+                            <div className=" w-full flex flex-col items-center pr-4">
+                                <div className="text-pink-500 text-2xl font-medium tracking-wider my-1 flex flex-row items-center gap-2">
+                                    Products
+                                </div>
+                                <hr className="border border-pink-500 w-2/3" />
+                            </div>
+                            <div className='flex flex-row flex-wrap items-center justify-center gap-5 mt-2 pr-8'>
+                                {
+                                    dataProducts?.getProducts.map((item, i) => (
+                                        <div key={i} onClick={() => { setSelectedId(item.id); setSelectedItem(item.name) }} className='w-fit bg-pink-500 hover:bg-pink-600 transition-all cursor-pointer mb-2 text-white rounded-md py-1.5 px-4'>{item.name}</div>
+                                    ))
+                                }
+
+                            </div>
+                            <div className='flex flex-col items-center justify-center gap-2 my-4'>
+                                <div className='text-stone-800 font-semibold text-lg flex items-center gap-3'>
+                                    Product:
+                                    <div className='font-normal '>{selectedItem}</div>
+                                </div>
+                                <button onClick={() => { deleteProduct({variables:{productId: selectedId}}); refetch(); setSelectedItem("Deleted!") }} className='text-white px-4 py-2 rounded-md bg-red-500 hover:bg-red-600 transition-all'>Delete</button>
+
+                            </div>
+
                             <div className=" w-full flex flex-col items-center pr-4">
                                 <div className="text-pink-500 text-2xl font-medium tracking-wider my-1 flex flex-row items-center gap-2">
 
@@ -220,7 +264,7 @@ const mutations = () => {
                                 </div>
                                 <hr className="border border-pink-500 w-2/3" />
                             </div>
-                            <pre><code></code></pre>
+                            <pre><code>{DELETE_PRODUCT_TEXT}</code></pre>
                         </div>
                         <hr className="border-r-2 border-slate-800/50 h-full" />
                         <div className='w-1/2 h-full'>
@@ -232,7 +276,7 @@ const mutations = () => {
                                 <hr className="border border-pink-500 w-2/3" />
                             </div>
                             <div className='w-full h-[420px] overflow-y-scroll m-2'>
-                                {/* <pre>{JSON.stringify(dataProducts.getProducts, null, 2)}</pre> */}
+                                <pre>{JSON.stringify(dataProducts?.getProducts, null, 2)}</pre>
                             </div>
                         </div>
                     </div>

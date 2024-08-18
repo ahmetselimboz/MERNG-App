@@ -27,7 +27,6 @@ export const UPDATE_PRODUCT = gql`
       color
       name
       price
-     
     }
   }
 `;
@@ -40,6 +39,22 @@ export const UPDATE_PRODUCT_TEXT = `
       name
       price
 
+    }
+  }
+`;
+
+export const DELETE_PRODUCT = gql`
+  mutation DeleteProduct($productId: ID!) {
+    deleteProduct(productId: $productId) {
+      id
+    }
+  }
+`;
+
+export const DELETE_PRODUCT_TEXT = `
+  mutation DeleteProduct($productId: ID!) {
+    deleteProduct(productId: $productId) {
+      id
     }
   }
 `;
