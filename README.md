@@ -1,67 +1,66 @@
+![Uygulama Ekran Görüntüsü](https://image.ahmetselimboz.com.tr/image/merng_thumbnail.jpg)
+
 # MERNG-App
 
-Bu proje, modern web uygulamaları geliştirmek için kullanılan MERNG (MongoDB, Express, React, Node.js, GraphQL) stack'i üzerinde inşa edilmiştir. MERNG-App, kullanıcıların gerçek zamanlı veri paylaşımı yapmasına olanak tanır ve çeşitli CRUD işlemlerini GraphQL ile etkin bir şekilde yönetir.
+This project is a MERNG (MongoDB, Express, React, Node.js, GraphQL) application designed to demonstrate CRUD (Create, Read, Update, Delete) operations using GraphQL. MERNG-App allows users to perform efficient CRUD operations on data.
 
-## Proje Linki
+## Project Links
 
-- [Canlı Önizleme](https://merng-app.ahmetselimboz.com.tr/)
+- [Live Demo](https://merng-app.ahmetselimboz.com.tr/)
 
-## Teknolojiler
+## Technologies
 
-Bu proje şu teknolojileri kullanmaktadır:
+This project uses the following technologies:
 
-- **MongoDB:** Veritabanı yönetimi için.
-- **Express:** Backend API'ları oluşturmak için.
-- **React:** Kullanıcı arayüzü geliştirmek için.
-- **Node.js:** Sunucu tarafı çalıştırma ortamı.
-- **GraphQL:** Veri sorgulama ve yönetimi.
+- **MongoDB:** For database management.
+- **Express:** To build backend APIs.
+- **React:** For developing the user interface.
+- **Node.js:** As the server-side runtime environment.
+- **GraphQL:** For querying and managing data.
 
-## Özellikler
+## Features
 
-- **Kullanıcı Kimlik Doğrulama:** JWT tabanlı oturum açma ve kaydolma.
-- **CRUD İşlemleri:** GraphQL kullanarak veritabanı üzerinde oluşturma, okuma, güncelleme ve silme işlemleri.
-- **Gerçek Zamanlı Güncellemeler:** Apollo Client ve WebSockets entegrasyonu ile dinamik veri akışı.
-- **Hata Yönetimi:** Sunucu ve istemci tarafında kapsamlı hata yakalama ve yönetimi.
+- **GraphQL CRUD Operations:** Create, read, update, and delete data in the database using GraphQL.
 
-## Kurulum ve Çalıştırma
+## Installation and Setup
 
-### Gereksinimler
+### Requirements
 
-- Node.js (v14 ve üzeri)
+- Node.js (v14 or later)
 - MongoDB
-- Yarn veya NPM
+- Yarn or NPM
 
-### Kurulum
+### Setup
 
-1. Projeyi klonlayın:
+1. Clone the repository:
 
     ```bash
     git clone https://github.com/ahmetselimboz/MERNG-App.git
     cd MERNG-App
     ```
 
-2. Gerekli bağımlılıkları yükleyin:
+2. Install the required dependencies:
 
     ```bash
     npm install
     ```
 
-3. `.env` dosyasını oluşturun ve gerekli ortam değişkenlerini ekleyin:
+3. Create a `.env` file and add the necessary environment variables:
 
     ```bash
     MONGODB_URI=your_mongodb_uri
     JWT_SECRET=your_jwt_secret
     ```
 
-4. Geliştirme sunucusunu çalıştırın:
+4. Start the development server:
 
     ```bash
     npm start
     ```
 
-5. Tarayıcınızda [http://localhost:3000](http://localhost:3000) adresine gidin.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Proje Yapısı
+## Project Structure
 
 ```plaintext
 MERNG-App/
