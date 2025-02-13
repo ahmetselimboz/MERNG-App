@@ -1,4 +1,4 @@
-![Uygulama Ekran Görüntüsü](https://image.ahmetselimboz.com.tr/image/merng_thumbnail.jpg)
+![Uygulama Ekran Görüntüsü](https://cdn.ahmetselimboz.com/image/merng_thumbnail.jpg)
 
 # MERNG-App
 
